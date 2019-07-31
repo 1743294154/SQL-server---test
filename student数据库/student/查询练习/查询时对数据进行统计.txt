@@ -1,0 +1,10 @@
+use student 
+go
+select COUNT(*) AS 学生总数 from 学生  
+
+GO
+
+use student 
+go
+select AVG(YEAR(getdate())-YEAR(出生日期)) AS 平均年龄 from 学生  
+GO

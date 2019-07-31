@@ -1,0 +1,24 @@
+1.
+use student
+go
+select * from 学生 where 姓名 like '[张,刘,罗]%' order by 姓名 
+GO
+2.
+use student
+go
+select 课程号,学号,成绩 from 课程注册 where  课程号 in ('0001','0002','0003')
+ order by 课程号 desc,
+			成绩 asc 
+GO
+3.
+use student
+go
+select count(学号)as 学生人数,MAX(成绩) as 最高成绩,min(成绩) as 最低成绩,AVG(成绩) as 平均成绩
+ from 课程注册 where  课程号 ='0001'
+ go
+4.
+use student
+go
+select 学号,SUM(成绩) AS 总成绩
+ from 课程注册 group by 学号 having SUM(成绩)>300
+ go

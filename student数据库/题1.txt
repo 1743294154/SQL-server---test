@@ -1,0 +1,23 @@
+use student
+GO
+DECLARE c_jsxx CURSOR KEYSET for select 姓名  from 学生 open c_jsxx
+DECLARE @xm nvarchar(8),@xb CHAR(18)='六一儿童节快乐!'
+if @@ERROR=0
+	begin
+		if @@CURSOR_ROWS>0
+		BEGIN
+		print '共有学生' +RTRIM(CAST(@@CURSOR_ROWS AS CHAR(3)))+'名，分别是：'
+		print ''
+		FETCH NEXT FROM c_jsxx into @xm
+		while(@@FETCH_STATUS=0)
+		begin
+		 print @xm+','+@xb
+		 fetch next from c_jsxx into @xm
+		 end
+		 end
+		 end
+		 ELSE
+		 print '游标有问题!'
+		 close c_jsxx
+		 deallocate c_jsxx
+		 go

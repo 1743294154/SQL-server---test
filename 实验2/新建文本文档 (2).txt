@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        DataSet ds = new DataSet();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            textBox1.DataBindings.Add("Text", ds.Tables[0],"ÐÕÃû");
+            ComboBox1.DataSource = ds.Tables[0];
+            ComboBox1
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            string constr = "data source=3A411-122; initial catalog=student;User ID=sa;Password=1111";
+            SqlConnection scon = new SqlConnection(constr);
+            SqlCommand scom = new SqlCommand();
+            scom.CommandText = "SELECT * FROM Ñ§Éú";
+            scom.Connection = scon;
+            scom.CommandType = CommandType.Text;
+            SqlDataAdapter sdp = new SqlDataAdapter();
+            sdp.SelectCommand = scom;
+            if (scon.State != ConnectionState.Open)
+            {
+                scon.Open();
+            }
+            scom.ExecuteNonQuery();
+            if (scon.State != ConnectionState.Closed)
+            { scon.Close(); }
+            sdp.Fill(ds);
+        }
+    }
+}

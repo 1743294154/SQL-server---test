@@ -1,0 +1,64 @@
+1.
+use student
+go
+select * from 学生 where 班级代码='060101001'
+go
+
+
+2.
+use student
+go
+select * from 教师 where 系部代码='01' and 姓名 like '李%' and 性别='男'
+go
+
+
+3.
+use student
+go
+select * from 学生 where 入学时间>'2006 -1-1' and 入学时间<'2006-12-31'
+go
+
+4.
+use student
+go
+select 学号,sum(成绩) as 总成绩 from 课程注册
+group by 学号
+
+5.
+use student
+go
+select distinct A.学号,A.姓名,A.入学时间,C.专业名称 from 学生 AS A JOIN 课程注册 AS B
+	on  A.学号=B.学号
+	JOIN 专业 as C
+	ON B.专业代码=C.专业代码
+    where C.专业名称='软件工程' and A.入学时间>='2006-1-1' and A.入学时间<='2006-12-31'
+	order by A.学号
+	GO
+
+6.
+use student
+go
+select A.学号,A.姓名,B.成绩 from 学生 AS A JOIN 课程注册 AS B
+	ON A.学号=B.学号
+	join 课程 AS C
+	ON B.课程号=C.课程号
+	WHERE C.课程名称='SQL Server'
+	order by B.成绩 DESC,班级代码 ASC
+7.
+use student
+go
+select B.* from 课程 AS A JOIN 教学计划 AS B
+ ON A.课程号=B.课程号
+ where 课程名称='SQL Server'
+ order by A.课程号
+ GO
+8.
+use student
+go
+INSERT INTO 课程收费
+	(学号,课程号,收费,学年,学期)
+	SELECT DISTINCT A.学号,A.课程号,A.收费否,A.学年,A.学期 FROM 课程注册 AS A
+	WHERE A.成绩 <'60'
+    update 课程收费
+   set 收费=0
+   go

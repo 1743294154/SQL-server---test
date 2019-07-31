@@ -1,0 +1,20 @@
+1.查询职工中所有人工资是1250的情况？
+use PXSCJ
+go
+select * from 职工 where 工资=1250
+go 
+2.查询职工表中的所有记录的前3行
+use PXSCJ
+go
+select top 3 * from 职工
+go
+3.查询职工表中所有信息，并且把仓库号在查询窗口中显示为仓库
+use PXSCJ
+go
+select 仓库号 as 仓库,*  from 职工
+go
+4.查询职工表中，消除结果显示重复的行
+use PXSCJ
+go
+select DISTINCT 仓库号 from 职工
+go

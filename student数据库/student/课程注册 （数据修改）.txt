@@ -1,0 +1,26 @@
+1.将课程注册表中的所有记录的成绩值改为（注册号-9999999)表达式的值，学分为3
+USE student
+go
+update 课程注册
+	set 成绩=(注册号-9999999),学分=3
+	GO 
+2.修改课程注册表中的学生成绩为实际成绩
+use student
+go
+update 课程注册 set 成绩=85 where 课程号='0001' AND 学号='060101001001'
+update 课程注册 set 成绩=58 where 课程号='0001' AND 学号='060101001002'
+update 课程注册 set 成绩=63 where 课程号='0001' AND 学号='060101001003'
+update 课程注册 set 成绩=74 where 课程号='0001' AND 学号='060101001004'
+update 课程注册 set 成绩=68 where 课程号='0002' AND 学号='060101001001'
+update 课程注册 set 成绩=45 where 课程号='0002' AND 学号='060101001002'
+update 课程注册 set 成绩=88 where 课程号='0002' AND 学号='060101001003'
+update 课程注册 set 成绩=69 where 课程号='0002' AND 学号='060101001004'
+update 课程注册 set 成绩=78 where 课程号='0003' AND 学号='060101001001'
+update 课程注册 set 成绩=76 where 课程号='0003' AND 学号='060101001002'
+update 课程注册 set 成绩=87 where 课程号='0003' AND 学号='060101001003'
+update 课程注册 set 成绩=87 where 课程号='0003' AND 学号='060101001004'
+update 课程注册 set 成绩=96 where 课程号='0004' AND 学号='060101001001'
+update 课程注册 set 成绩=96 where 课程号='0004' AND 学号='060101001002'
+update 课程注册 set 成绩=86 where 课程号='0004' AND 学号='060101001003'
+update 课程注册 set 成绩=58 where 课程号='0004' AND 学号='060101001004'
+go	

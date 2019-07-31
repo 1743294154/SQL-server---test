@@ -1,0 +1,13 @@
+1.
+use student 
+go
+select * from 教师 where 性别='男' 
+ORDER BY YEAR(GETDATE())-YEAR(出生日期) DESC
+go
+
+
+2.
+use student 
+go
+select * from 学生 ORDER BY 班级代码 DESC, 学号 ASC
+GO

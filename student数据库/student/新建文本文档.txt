@@ -1,0 +1,12 @@
+use student
+go
+select * from 学生 where 学号 in (
+select 学号 from 成绩 where 课程号 in (
+select 课程号 from 课程 where  课程名称='计算机基础'))
+go
+
+
+use student
+go
+select 学号 from 课程 where 课程号='206' AND 成绩>=
+(select 成绩 from 成绩 where='101') 

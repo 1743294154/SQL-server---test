@@ -1,0 +1,51 @@
+use student 
+go
+CREATE TRIGGER insert_kczc
+ON  课程注册 AFTER INSERT
+AS
+BEGIN
+declare @cj int,@xh char(6),@kch char(6)
+declare  @xn char(10),@xq char (10),@kclx char(10)
+select @xh=学号,@kch=课程号,@cj=成绩 from 课程注册  where 成绩<60 
+	begin 
+	select 课程类型=@kclx from 教学计划
+if(@kclx='公共必修' or @kclx='专业必修')
+insert into 课程收费
+	(学号,课程号,收费,学年,学期)
+	VALUES(@xh,@kch,'0',@xn,@xq)
+	end
+	
+END
+
+use student
+go
+if exists (select name FROM sysobjects
+	WHERE name='dele_shf' and type = 'TR')
+	DROP TRIGGER dele_shf
+Go
+CREATE TRIGGER dele_shf
+ON  课程收费 FOR delete
+AS
+	DECLARE @shoufei INT ='0'
+	select @shoufei=收费 FROM deleted
+	IF exists (SELECT * from 课程收费 where 收费=@shoufei)
+	BEGIN
+	PRINT '不可删除收费为零的'
+	ROLLBACK TRANSACTION
+	end
+	GO 
+
+
+use student
+GO
+CREATE TRIGGER upate_shf
+ON  课程收费 FOR delete
+AS
+	DECLARE @shoufei INT ='0'
+	select @shoufei=收费 FROM deleted
+	IF exists (SELECT * from 课程收费 where 收费=@shoufei)
+	BEGIN
+	PRINT '不可删除收费为零的'
+	ROLLBACK TRANSACTION
+	end
+	GO 

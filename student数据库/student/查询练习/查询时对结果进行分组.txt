@@ -1,0 +1,3 @@
+use student 
+go
+select 课程号,教师编号,count(*) as 选课人数 from 课程注册 group by 课程号,教师编号 having COUNT(*)>3 order by 课程号 asc

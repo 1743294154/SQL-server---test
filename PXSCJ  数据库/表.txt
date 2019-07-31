@@ -1,0 +1,37 @@
+use PXSCJ
+GO
+CREATE TABLE XSB
+(学号  char(6)  NOT NULL PRIMARY KEY,
+ 姓名  char(8)  NOT NULL,
+ 性别  bit DEFAULT(1), 
+ 出生日期  datetime,
+ 专业   char(12),
+ 总学分 int,
+ 备注   varchar(500)
+ )
+ GO
+ CREATE TABLE KCB
+ (课程号  char(3) NOT NULL PRIMARY KEY,
+ 课程名   char(16) NOT NULL,
+ 开课学期  tinyint, 
+ 学时      tinyint,
+ 学分       tinyint,
+ )
+ GO
+ CREATE TABLE CJB
+ (学号  char(6) NOT NULL  PRIMARY KEY(学号,课程号),
+  课程号 char(3) NOT NULL,
+  成绩    int  DEFAULT(0)
+  )
+  GO
+
+
+
+
+修改数据
+use PXSCJ
+GO
+update CJB
+ SET 姓名=858
+ where 学号='201180'
+go 

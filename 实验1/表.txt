@@ -1,0 +1,36 @@
+USE PXSCJ
+GO
+CREATE TABLE 仓库
+(仓库号 char(8) NOT NULL PRIMARY KEY,
+城市 char(12),
+面积 char(8)
+)
+GO
+
+USE PXSCJ
+GO
+CREATE TABLE 职工
+(仓库号 char(8) NOT NULL PRIMARY KEY(仓库号,职工号),
+职工号 char(6),
+工资 smallint
+)
+GO
+
+USE PXSCJ
+GO
+CREATE TABLE 订购单
+(职工号 char(6) PRIMARY KEY(职工号,供应商号),
+供应商号 varchar(6),
+订购单号 char(8),
+订购日期 datetime
+)
+GO
+
+USE PXSCJ
+GO
+CREATE TABLE 供应商
+(供应商号 char(6) PRIMARY KEY,
+供应商名 varchar(14),
+地址 varchar(6)
+)
+GO 

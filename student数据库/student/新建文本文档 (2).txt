@@ -1,0 +1,15 @@
+use student
+go
+create proc cjjic @xbmc varchar(20)
+AS
+select A.学号,C.课程名称,B.成绩 FROM 学生 as A join 课程注册 AS B
+		ON A.学号 = B.学号
+		JOIN 课程 AS C
+		ON B.课程号 = C.课程号
+		where A.姓名=@xbmc
+go
+
+use student
+go
+EXEcute cjjic  '刘永辉'
+go

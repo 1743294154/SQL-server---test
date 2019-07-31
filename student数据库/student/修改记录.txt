@@ -1,0 +1,7 @@
+use student
+go
+update 系部
+  set 系主任='李政'
+  where 系部代码='04'
+  go
+  

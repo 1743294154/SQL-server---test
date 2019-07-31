@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        DataSet ds = new DataSet();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            textBox1.BindingContext[ds.Tables[0]].Position = 0;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            string constr = "data source=3B507-42; initial catalog=student;User ID=sa;Password=1111";
+            SqlConnection scon = new SqlConnection(constr);
+            SqlCommand scom = new SqlCommand("SELECT * FROM 学生");
+            scom.Connection = scon;
+            scom.CommandType = CommandType.Text;
+            SqlDataAdapter dp = new SqlDataAdapter();
+            dp.SelectCommand = scom;
+            if (scon.State != ConnectionState.Open)
+            {
+                scon.Open();
+            }
+            scom.ExecuteNonQuery();
+            if (scon.State != ConnectionState.Closed)
+            { scon.Close(); }
+            dp.Fill(ds);
+            textBox1.DataBindings.Add("Text", ds.Tables[0], "姓名");
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            textBox1.BindingContext[ds.Tables[0]].Position--;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox1.BindingContext[ds.Tables[0]].Position++;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox1.BindingContext[ds.Tables[0]].Position =
+                textBox1.BindingContext[ds.Tables[0]].Count - 1;
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string constr = "data source=3B507-42; initial catalog=student;User ID=sa;Password=1111";
+            SqlConnection scon = new SqlConnection(constr);
+            SqlCommand scom = new SqlCommand("delete from 学生 where 姓名='" + textBox1.Text + "'");
+            scom.Connection = scon;
+            scom.CommandType = CommandType.Text;
+            scon.Open();
+            scom.ExecuteNonQuery();
+            scon.Close();
+            MessageBox.Show("删除成功");
+
+            ds.Tables[0].Rows[textBox1.BindingContext[ds.Tables[0]].Position].Delete();
+            ds.Tables[0].AcceptChanges();
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+            
+
+            ds.Tables[0].Rows[textBox1.BindingContext[ds.Tables[0]].Position].BeginEdit();
+            ds.Tables[0].Rows[textBox1.BindingContext[ds.Tables[0]].Position]["姓名"] = textBox2.Text;
+            ds.Tables[0].Rows[textBox1.BindingContext[ds.Tables[0]].Position].EndEdit();
+            ds.Tables[0].AcceptChanges();
+            MessageBox.Show("修改成功");
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string constr = "data source=3B507-42; initial catalog=student;User ID=sa;Password=1111";
+            SqlConnection scon = new SqlConnection(constr);
+            SqlCommand scom = new SqlCommand("insert into 学生(学号,姓名) values(textBox3.text,textBox4.text)");
+            scom.Connection = scon;
+            scom.CommandType = CommandType.Text;
+            scon.Open();
+            scom.ExecuteNonQuery();
+            scon.Close();
+
+            
+            
+            DataRow newrow=
+                    ds.Tables[0].NewRow(); newrow["学号"]=textBox3.Text;
+                    ds.Tables[0].NewRow(); newrow["姓名"] = textBox4.Text;
+                    ds.Tables[0].Rows.Add(newrow);
+                    ds.Tables[0].AcceptChanges();
+                    MessageBox.Show("添加成功");
+
+
+
+        }
+    }
+}

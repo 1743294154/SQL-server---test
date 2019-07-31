@@ -1,0 +1,46 @@
+1.
+use student
+go
+insert into 课程注册 
+(学号,教师编号,课程号,专业学级,专业代码,选课类型,学期,学年,收费否,注册,成绩,学分)
+
+select distinct A.学号,D.教师编号,D.课程号,C.专业学级,C.专业代码,'',C.开课学期,0,0,0,0,0 
+FROM 学生 AS A
+JOIN 班级 AS B ON A.班级代码=B.班级代码
+JOIN 教学计划 AS C ON B.专业代码=C.专业代码
+JOIN 教师任课 AS D ON C.课程号=D.课程号
+WHERE C.开课学期=1 AND (C.课程类型='专业必修' OR C.课程类型='公共必修')
+2.
+use student
+go
+insert into 课程注册 
+(学号,教师编号,课程号,专业学级,专业代码,选课类型,学期,学年,收费否,注册,成绩,学分)
+
+select distinct A.学号,C.教师编号,C.课程号,C.专业学级,C.专业代码,'重修',C.学期,0,0,0,0,0 
+FROM 课程注册 AS A JOIN 教学计划 AS B
+		ON A.专业代码=B.专业代码 AND A.课程号=B.课程号
+		AND A.专业学级=B.专业学级
+	JOIN 教师任课 as C
+	ON C.专业代码=B.专业代码 AND C.课程号=B.课程号
+	AND C.专业学级=B.专业学级
+where  A.成绩<60 AND (B.课程类型='专业必修' OR B.课程类型='公共必修')
+go
+3.
+use student
+go
+select distinct A.教师编号,A.姓名,C.课程名称
+from 教师 AS A  JOIN 课程注册 AS B
+    ON A.教师编号= B.教师编号 
+    JOIN 课程 AS C
+    ON B.课程号=C.课程号
+    go
+4.
+use student
+go
+select A.学号,A.姓名,A.性别,C.课程名称,B.成绩
+FROM 学生 AS A JOIN 课程注册 AS B
+	on A.学号 =	B.学号
+	JOIN 课程 AS C
+	ON B.课程号=C.课程号
+	GO
+		 

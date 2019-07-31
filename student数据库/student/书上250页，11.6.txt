@@ -1,0 +1,31 @@
+1.
+use [student]
+go
+create proc [dbo].[p_StudentCourse_Add]
+@stuID char(12),@courseID char(4),@teacherID char(12),
+@subjectID char(4),@yearlevel char(4),@courseclass char(4)
+AS
+DECLARE @term tinyint,@schoolyear char(4)
+IF MONTH(GETDATE())>=9
+begin
+set @term=1;
+set @schoolyear = STR(year(getdate()),4,0);
+end
+ELSE
+begin
+set @term=2;
+set @schoolyear =STR(year(getdate()),4,0);
+end
+INSERT INTO [Student].[dbo].[课程注册]
+	([学号],[课程号],[教师编号],[专业代码],[专业学级],[选课类型],[学期],[学年])
+	VALUES
+	(@stuID,@courseID,@teacherID,@subjectID,@yearlevel,@courseclass,@term,
+	@schoolyear)
+	go
+
+
+
+use student
+go
+exec [dbo].[p_StudentCourse_Add] '060101001004','0001','010000000001','0101','1',''
+go

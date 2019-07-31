@@ -1,0 +1,19 @@
+use student
+go
+delete 
+from 系部
+where 系部代码='04'
+go
+
+
+use student
+go
+delete 
+from 系部
+(删除该表所有数据，但是表还在）
+
+
+use student
+go
+truncate table 系部 
+(删除该表所有数据，但是表还在）

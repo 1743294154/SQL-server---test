@@ -1,0 +1,20 @@
+use student
+go 
+select 学号,姓名 from 学生 where 学号 in (select 学号 from 课程注册 where 课程号 in (select 课程号 from 课程 where 课程名称='SQL Server 2008'))
+use student 
+go
+select * from 班级 where 系部代码 in (select 系部代码 from 系部 where 系部名称='计算机系' or 系部名称='经济管理系')
+
+
+
+
+
+
+
+
+
+
+
+
+
+

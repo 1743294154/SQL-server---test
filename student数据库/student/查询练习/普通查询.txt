@@ -1,0 +1,4 @@
+use student 
+go
+select * from °à¼¶ where ±¸×¢ is null
+go

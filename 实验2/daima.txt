@@ -1,0 +1,27 @@
+ string constr = "data source=wp-PC; initial catalog=test;integrated Security=sspi";
+            SqlConnection scon = new SqlConnection(constr);
+            SqlCommand scom = new SqlCommand("SELECT * FROM userID WHERE rtrim(用户名)='" + textBox1.Text + "'", scon);
+            scom.CommandType = CommandType.Text;
+            SqlDataAdapter sdp = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            sdp.SelectCommand = scom;
+            if (scon.State != ConnectionState.Open)
+            {
+                scon.Open();
+            }
+            scom.ExecuteNonQuery();
+            if (scon.State != ConnectionState.Closed)
+            { scon.Close(); }
+            sdp.Fill(ds);
+            if (ds.Tables[0].Rows.Count == 0)
+            {
+                label3.Text = "输入用户名或密码有误，请重试";
+                return;
+            }
+            if (ds.Tables[0].Rows[0]["密码"].ToString() == textBox2.Text)
+                label3.Text = "登录成功";
+            else
+            {
+                label3.Text = "输入用户名或密码有误，请重试";
+                return;
+            }

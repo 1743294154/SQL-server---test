@@ -1,0 +1,24 @@
+use student 
+go
+CREATE TRIGGER insert_kczc
+ON  课程注册 AFTER INSERT
+AS
+BEGIN
+declare @cj int,@xh char(6)
+declare @kch char(4)
+declare  @xn char(10),@xq char (10),@kclx char(10)
+select @xh=学号,@kch=课程号 from inserted 
+if exists (select * from inserted where 成绩<60 and 选课类型='必修') 
+begin
+	insert into 课程收费
+	(学号,课程号,收费)
+	VALUES(@xh,@kch,'0')
+end
+end
+
+
+
+insert into 课程注册 
+(学号,成绩,学期,课程号,学年,教师编号,专业代码)
+values
+('060101001001',40,1,'0001','2008','010000000001','0101')

@@ -1,0 +1,21 @@
+USE shangpin
+go
+CREATE TABLE 管理员
+(
+用户名 varchar(12) primary key not null,
+密码 varchar(12) not null,
+级别 char(2) null
+)
+GO
+
+USE student
+go
+CREATE TABLE 商品表
+(
+商品名称 char(10)  primary key,
+商品码 varchar(30) not null,
+类别 varchar(8),
+生产商 varchar(10) 
+)
+ON STUGROUP1
+GO
