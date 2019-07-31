@@ -1,0 +1,100 @@
+1.我想知道这个学生中最高分，和最低分的同学的详细情况，并且课程是计算机网络！
+USE student
+go
+select A.学号,B.课程号,MAX(B.成绩) as 最大成绩
+from 学生 AS A join 课程注册 AS B
+ON A.学号=B.学号
+JOIN 课程 AS C 
+ON B.课程号=C.课程号
+GROUP by A.学号,B.课程号
+having B.课程号='0001'
+
+
+
+2.我想知道学生的学号，姓名，和平均成绩
+USE student
+go
+select A.学号,A.姓名,avg(B.成绩) as 平均成绩
+from 学生 AS A join 课程注册 AS B
+ON A.学号=B.学号
+JOIN 课程 AS C 
+ON B.课程号=C.课程号
+GROUP BY A.学号,A.姓名
+having AVG(B.成绩)>=60
+GO
+
+
+3.我想知道学号是0001学生，姓名，年龄，课程，成绩
+USE student
+go
+select distinct A.学号,A.姓名,C.课程名称,B.成绩,YEAR(GETDATE())-YEAR(出生日期) as 年龄
+from 学生 AS A join 课程注册 AS B
+ON A.学号=B.学号
+JOIN 课程 AS C 
+ON B.课程号=C.课程号
+where A.学号='001'
+order by A.学号
+
+4.查询选修‘0002’课程的学生学号和姓名
+USE student
+GO
+SELECT 学号,姓名
+FROM 学生
+WHERE EXISTS
+	(SELECT *
+	FROM 课程注册
+	WHERE 学号=学生.学号 AND 课程号='0001')
+	go
+
+5.查询选修了‘0001’课程，且该课程的成绩大于或等于同学的学号和姓名
+USE student
+GO
+SELECT *
+FROM 学生
+WHERE 学号 IN
+( SELECT 学号
+FROM 课程注册
+WHERE 成绩>= (SELECT AVG(成绩)
+FROM 课程注册
+WHERE 课程号='0001')
+AND 课程号='0001')
+GO
+
+6.查询姓‘张’‘李’‘刘’的同学的所属班级，查询的班级按照降序排序
+USE student
+GO
+SELECT *
+FROM 学生
+WHERE 姓名 LIKE '[张,李,刘]%'
+ORDER BY 姓名
+go
+	
+7.查询姓‘李’的学生的各门课程的成绩
+
+8.查询总成绩小于平均成绩的同学的学号和班级，并按照总成绩升序排序
+
+9.我需要想知道选修了‘0001’号课程切成绩在80分以上的同学的详细信息
+use student
+go
+select *
+from 学生
+where 学号 in
+ (select 学号
+  from 课程注册
+  where 成绩>80
+  and 课程号='0001'
+  
+)
+go
+
+
+
+10.我想知道在出生在1996年以后的同学，并且姓刘的同学的详细信息，查询结果按姓名排序
+use student
+go
+select *
+from 学生
+where (YEAR(GETDATE())-YEAR(出生日期))>32
+and  姓名 like '[刘]%'
+order by 姓名
+go

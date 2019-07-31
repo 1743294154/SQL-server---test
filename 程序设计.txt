@@ -1,0 +1,190 @@
+1.
+PRINT '当前所用SQL Server版本信息如下：'
+PRINT @@version --显示版本信息
+PRINT  ''    --换行
+PRINT '目前所SQL Server服务器名称为： '+@@SERVERNAME --显示服务器名称
+
+2.
+DECLARE @SNAME CHAR(10),@SBIRTH DATETIME, @SCORE DECIMAL(5,1)
+SET @SNAME='张杰'
+SET @SBIRTH=GETDATE()
+SET @SCORE=98.5
+SELECT @SNAME AS 'SNAME变量值', @SBIRTH AS 'SBIRTH变量值为'
+, @SCORE AS 'SCORE变量值为'
+
+3.
+USE student
+go
+declare @NAME CHAR(12)
+SELECT @NAME=姓名 FROM 教师 WHERE 教师编号='010000000001'
+print '教师表中教师编号为"010000000001"的教师姓名为：'+@NAME
+GO
+
+PRINT '如果继续引用该变量，将会出现声明局部变量的错误提示'
+GO
+PRINT '教师表中教师编号为"010000000001"的教师姓名为：'+@NAME
+GO
+
+4.
+USE student
+go
+IF exists (select * from 班级 where 系部代码='02')
+BEGIN
+PRINT '满足条件的班级有：'
+select 班级代码,班级名称 from 班级 where 系部代码='02'
+end
+go
+
+5.
+use student
+go
+declare @STR CHAR(20)
+SET @STR='欢迎使用PRINT语句'
+print @STR
+GO
+
+6.
+USE student
+go
+if exists (select * from 教师 where 职称='副教授' or 职称='教授')
+begin
+print '以下教师是具有高级职称的'
+select 姓名,学历,职称 from 教师 where 职称='副教授' or 职称='教授'
+end
+else
+begin
+   print '没有满足条件的教师'
+end
+go
+
+7.
+use student
+go
+select 课程号,课程名称,备注=
+CASE 课程名称
+	WHEN 'SQL Server 2008' THEN '数据库应用技术'
+	WHEN 'ASP.NET程序设计' THEN 'WEB 程序设计'
+	WHEN '计算机基础' THEN '计算机导论'
+	WHEN '网络营销' THEN '电子商务'
+END
+from 课程
+go
+
+8.
+use student
+go
+select 班级代码,班级名称,年级=
+CASE
+	WHEN LEFT(班级名称,2)='04' THEN '三年级'
+	WHEN LEFT(班级名称,2)='05' THEN '三年级'
+	WHEN LEFT(班级名称,2)='06' THEN '三年级'
+END
+FROM 班级
+GO
+
+9.
+use master
+go
+WAITFOR TIME '13:56:00'
+select @@TOTAL_ERRORS
+go
+
+10.
+use master
+go
+select * from 班级 where 系部代码='01'
+go
+waitfor delay '00:00:05'
+select * from 班级 where 系部代码='02'
+go
+
+
+
+11.
+DECLARE @I INT, @J INT
+SET @I=2
+WHILE @I<=300
+	BEGIN
+		SET @J=2
+		WHILE @J<=@I-1
+		BEGIN 
+			IF @I%@J=0
+				BREAK
+			ELSE
+				SET @J=@J+1
+			END
+		IF @I=@J
+			PRINT CONVERT(VARCHAR,@I)+'是素数！'
+		SET @I=@I+1
+	END
+
+
+DECLARE @X INT,@y char,@z varchar(100)
+	set @X=0
+	set @y='*'
+	set @z=REPLICATE(@y,@X)
+WHILE @X<5
+BEGIN
+	SET @X=@X+1
+	SET @z=REPLICATE(@y,@X)+CHAR(9)
+print @z
+end
+go
+
+
+11.
+use student
+go
+declare c_jsxx cursor keyset 
+for 
+select 姓名,性别,学历 from 教师
+open c_jsxx 
+DECLARE @xm nvarchar(8),@xb char(2),@xl nvarchar(10)
+if @@ERROR=0
+begin
+	if @@CURSOR_ROWS>0
+		begin
+			print '共有教师'+rtrim(cast(@@CURSOR_ROWS AS CHAR(3)))+'名,分别是：'
+			print ''
+		fetch next from c_jsxx into @xm,@xb,@xl
+	while (@@FETCH_STATUS=0)
+		begin
+			print @xm+','+@xb+','+@xl
+		fetch next from c_jsxx into @xm,@xb,@xl
+			end
+		end
+	end
+	else
+		print '游标存在问题'
+	close c_jsxx
+	deallocate c_jsxx
+	go
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
